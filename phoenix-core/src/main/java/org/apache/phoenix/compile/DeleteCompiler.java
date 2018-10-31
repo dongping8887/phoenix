@@ -91,12 +91,15 @@ import org.apache.phoenix.util.ScanUtil;
 
 import com.google.common.base.Preconditions;
 import com.google.common.collect.Lists;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import com.google.common.collect.Maps;
 import com.sun.istack.NotNull;
 
 public class DeleteCompiler {
     private static ParseNodeFactory FACTORY = new ParseNodeFactory();
-    
+    private static final Logger logger = LoggerFactory.getLogger(DeleteCompiler.class);
+
     private final PhoenixStatement statement;
     private final Operation operation;
     

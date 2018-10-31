@@ -1729,6 +1729,7 @@ public class PhoenixStatement implements Statement, SQLCloseable {
     
     @Override
     public boolean execute(String sql) throws SQLException {
+        logger.debug("----sql: " + sql);
         CompilableStatement stmt = parseStatement(sql);
         if (stmt.getOperation().isMutation()) {
             if (!batch.isEmpty()) {

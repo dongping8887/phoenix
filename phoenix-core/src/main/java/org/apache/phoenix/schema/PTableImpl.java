@@ -87,6 +87,9 @@ import com.google.common.collect.ListMultimap;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 
 /**
  *
@@ -98,6 +101,7 @@ import com.google.common.collect.Maps;
  */
 public class PTableImpl implements PTable {
     private static final Integer NO_SALTING = -1;
+    private static final Logger logger = LoggerFactory.getLogger(PTableImpl.class);
 
     private PTableKey key;
     private PName name;
@@ -513,6 +517,8 @@ public class PTableImpl implements PTable {
             allColumns = new PColumn[columns.size()];
             pkColumns = Lists.newArrayListWithExpectedSize(columns.size());
         }
+
+        logger.debug("----schemaName: " + schemaName + ", tableName: " + tableName + ", columns: " + columns);
         for (PColumn column : columns) {
             allColumns[column.getPosition()] = column;
             PName familyName = column.getFamilyName();
@@ -521,11 +527,13 @@ public class PTableImpl implements PTable {
             }
             String columnName = column.getName().getString();
             if (columnsByName.put(columnName, column)) {
+                logger.debug("----columnsByName after put: " + columnsByName);
                 int count = 0;
                 for (PColumn dupColumn : columnsByName.get(columnName)) {
                     if (Objects.equal(familyName, dupColumn.getFamilyName())) {
                         count++;
                         if (count > 1) {
+                            logger.error("----columnsByName with error: " + columnsByName);
                             throw new ColumnAlreadyExistsException(schemaName.getString(), name.getString(), columnName);
                         }
                     }
@@ -639,7 +647,58 @@ public class PTableImpl implements PTable {
 
     @Override
     public String toString() {
-        return name.getString();
+        return "PTableImpl{" +
+                "key=" + key +
+                ", name=" + name +
+                ", schemaName=" + schemaName +
+                ", tableName=" + tableName +
+                ", tenantId=" + tenantId +
+                ", type=" + type +
+                ", state=" + state +
+                ", sequenceNumber=" + sequenceNumber +
+                ", timeStamp=" + timeStamp +
+                ", indexDisableTimestamp=" + indexDisableTimestamp +
+                ", pkColumns=" + pkColumns +
+                ", allColumns=" + allColumns +
+                ", families=" + families +
+                ", familyByBytes=" + familyByBytes +
+                ", familyByString=" + familyByString +
+                ", columnsByName=" + columnsByName +
+                ", kvColumnsByQualifiers=" + kvColumnsByQualifiers +
+                ", pkName=" + pkName +
+                ", bucketNum=" + bucketNum +
+                ", rowKeySchema=" + rowKeySchema +
+                ", indexes=" + indexes +
+                ", parentName=" + parentName +
+                ", parentSchemaName=" + parentSchemaName +
+                ", parentTableName=" + parentTableName +
+                ", physicalNames=" + physicalNames +
+                ", isImmutableRows=" + isImmutableRows +
+                ", indexMaintainer=" + indexMaintainer +
+                ", indexMaintainersPtr=" + indexMaintainersPtr +
+                ", defaultFamilyName=" + defaultFamilyName +
+                ", viewStatement='" + viewStatement + '\'' +
+                ", disableWAL=" + disableWAL +
+                ", multiTenant=" + multiTenant +
+                ", storeNulls=" + storeNulls +
+                ", isTransactional=" + isTransactional +
+                ", viewType=" + viewType +
+                ", viewIndexId=" + viewIndexId +
+                ", estimatedSize=" + estimatedSize +
+                ", indexType=" + indexType +
+                ", baseColumnCount=" + baseColumnCount +
+                ", rowKeyOrderOptimizable=" + rowKeyOrderOptimizable +
+                ", hasColumnsRequiringUpgrade=" + hasColumnsRequiringUpgrade +
+                ", rowTimestampColPos=" + rowTimestampColPos +
+                ", updateCacheFrequency=" + updateCacheFrequency +
+                ", isNamespaceMapped=" + isNamespaceMapped +
+                ", autoPartitionSeqName='" + autoPartitionSeqName + '\'' +
+                ", isAppendOnlySchema=" + isAppendOnlySchema +
+                ", immutableStorageScheme=" + immutableStorageScheme +
+                ", qualifierEncodingScheme=" + qualifierEncodingScheme +
+                ", encodedCQCounter=" + encodedCQCounter +
+                ", useStatsForParallelization=" + useStatsForParallelization +
+                '}';
     }
 
     @Override

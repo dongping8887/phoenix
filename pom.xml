@@ -67,12 +67,12 @@
 
     <!-- Hadoop Versions -->
     <hbase.version>1.1.9</hbase.version>
-    <hadoop-two.version>2.7.1</hadoop-two.version>
+    <hadoop-two.version>2.7.3</hadoop-two.version>             <!-- modify by dongping 20181030 -->
 
     <!-- Dependency versions -->
     <commons-cli.version>1.2</commons-cli.version>
     <hive.version>1.2.1</hive.version>
-    <hadoop.version>2.7.1</hadoop.version>
+    <hadoop.version>2.7.3</hadoop.version>                      <!-- modify by dongping 20181030 -->
     <pig.version>0.13.0</pig.version>
     <jackson.version>1.9.2</jackson.version>
     <antlr.version>3.5.2</antlr.version>

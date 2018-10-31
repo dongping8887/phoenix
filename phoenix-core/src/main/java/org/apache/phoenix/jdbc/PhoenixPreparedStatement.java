@@ -17,35 +17,6 @@
  */
 package org.apache.phoenix.jdbc;
 
-import java.io.EOFException;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.Reader;
-import java.math.BigDecimal;
-import java.net.URL;
-import java.sql.Array;
-import java.sql.Blob;
-import java.sql.Clob;
-import java.sql.Date;
-import java.sql.NClob;
-import java.sql.ParameterMetaData;
-import java.sql.PreparedStatement;
-import java.sql.Ref;
-import java.sql.ResultSet;
-import java.sql.ResultSetMetaData;
-import java.sql.RowId;
-import java.sql.SQLException;
-import java.sql.SQLFeatureNotSupportedException;
-import java.sql.SQLXML;
-import java.sql.Time;
-import java.sql.Timestamp;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.BitSet;
-import java.util.Calendar;
-import java.util.Collections;
-import java.util.List;
-
 import org.apache.phoenix.compile.BindManager;
 import org.apache.phoenix.compile.MutationPlan;
 import org.apache.phoenix.compile.QueryPlan;
@@ -57,6 +28,18 @@ import org.apache.phoenix.schema.ExecuteUpdateNotApplicableException;
 import org.apache.phoenix.schema.Sequence;
 import org.apache.phoenix.schema.types.PDataType;
 import org.apache.phoenix.util.SQLCloseable;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.io.EOFException;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.Reader;
+import java.math.BigDecimal;
+import java.net.URL;
+import java.sql.*;
+import java.sql.Date;
+import java.util.*;
 
 /**
  * JDBC PreparedStatement implementation of Phoenix. Currently only the following methods (in addition to the ones
@@ -72,6 +55,7 @@ import org.apache.phoenix.util.SQLCloseable;
  * @since 0.1
  */
 public class PhoenixPreparedStatement extends PhoenixStatement implements PreparedStatement, SQLCloseable {
+    private static final Logger logger = LoggerFactory.getLogger(PhoenixPreparedStatement.class);
     private final int parameterCount;
     private final List<Object> parameters;
     private final CompilableStatement statement;
@@ -91,6 +75,7 @@ public class PhoenixPreparedStatement extends PhoenixStatement implements Prepar
     public PhoenixPreparedStatement(PhoenixConnection connection, String query) throws SQLException {
         super(connection);
         this.query = query;
+        logger.debug("----sql: " + query);
         this.statement = parseStatement(query);
         this.parameterCount = statement.getBindCount();
         this.parameters = Arrays.asList(new Object[statement.getBindCount()]);

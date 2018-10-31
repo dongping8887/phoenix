@@ -17,26 +17,6 @@
  */
 package org.apache.phoenix.end2end;
 
-import static org.apache.phoenix.util.TestUtil.closeStatement;
-import static org.apache.phoenix.util.TestUtil.closeStmtAndConn;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
-
-import java.math.BigDecimal;
-import java.math.RoundingMode;
-import java.sql.Connection;
-import java.sql.Date;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
-import java.sql.Time;
-import java.sql.Timestamp;
-import java.util.Properties;
-
 import org.apache.hadoop.hbase.client.HTableInterface;
 import org.apache.hadoop.hbase.client.Result;
 import org.apache.hadoop.hbase.client.ResultScanner;
@@ -50,6 +30,15 @@ import org.apache.phoenix.util.EnvironmentEdgeManager;
 import org.apache.phoenix.util.SchemaUtil;
 import org.apache.phoenix.util.TestUtil;
 import org.junit.Test;
+
+import java.math.BigDecimal;
+import java.math.RoundingMode;
+import java.sql.*;
+import java.util.Properties;
+
+import static org.apache.phoenix.util.TestUtil.closeStatement;
+import static org.apache.phoenix.util.TestUtil.closeStmtAndConn;
+import static org.junit.Assert.*;
 
 
 public class UpsertValuesIT extends ParallelStatsDisabledIT {
@@ -117,6 +106,7 @@ public class UpsertValuesIT extends ParallelStatsDisabledIT {
         ensureTableCreated(getUrl(), tableName, "IntKeyTest", null, null, null);
         Properties props = new Properties();
         Connection conn = DriverManager.getConnection(getUrl(), props);
+        //String upsert = "UPSERT INTO " + tableName + " VALUES(-1)";
         String upsert = "UPSERT INTO " + tableName + " VALUES(-1)";
         PreparedStatement upsertStmt = conn.prepareStatement(upsert);
         int rowsInserted = upsertStmt.executeUpdate();

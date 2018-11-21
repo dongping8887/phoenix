@@ -60,9 +60,11 @@ public class UpsertValuesIT extends ParallelStatsDisabledIT {
         conn.close();
 
         conn = DriverManager.getConnection(getUrl(), props);
-        ResultSet rs = conn.createStatement().executeQuery("select count(1) from " + tableName + " group by inst limit 1");
+//        ResultSet rs = conn.createStatement().executeQuery("select count(1) from " + tableName + " group by inst limit 1");
+        ResultSet rs = conn.createStatement().executeQuery("select count(1) from " + tableName);
         assertTrue(rs.next());
-        assertEquals(3,rs.getInt(1));
+//        assertEquals(3,rs.getInt(1));
+        assertEquals(5,rs.getInt(1));
         assertFalse(rs.next());
 
         rs = conn.createStatement().executeQuery("select inst from " + tableName + " where inst > 'a' group by inst limit 1");

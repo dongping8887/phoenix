@@ -29,7 +29,7 @@
     <module>phoenix-pig</module>
     <module>phoenix-queryserver-client</module>
     <module>phoenix-queryserver</module>
-    <module>phoenix-pherf</module>
+    <!--<module>phoenix-pherf</module>-->  <!--delete by dongping 20181128-->
     <module>phoenix-spark</module>
     <module>phoenix-hive</module>
     <module>phoenix-client</module>

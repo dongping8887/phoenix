@@ -878,7 +878,7 @@ public class UpsertCompiler {
             nodeIndex++;
         }
         String expressionString = StringUtils.arrayToString(expressionList.toArray(new String[]{}));
-        logger.debug("----upsert expression: " + expressionString);
+        logger.trace("----upsert expression: " + expressionString);
         //add by dongping 20181031 end
 
         byte[] onDupKeyBytesToBe = null;
